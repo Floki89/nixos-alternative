@@ -65,8 +65,8 @@
   users.users.leon = {
     isNormalUser = true;
     shell = pkgs.fish;
-    home = "/home/leon";
-    hashedPassword = "lol";
+    home = "/home/Tobi";
+    hashedPassword = "tobi";
     extraGroups = [ "wheel" "docker" "audio" "video" ];
   };
 
