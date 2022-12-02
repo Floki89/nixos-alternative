@@ -7,7 +7,7 @@
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
     # Per-interface useDHCP will be mandatory in the future, so this generated config
     # replicates the default behaviour.
-    useDHCP = false;
+    useDHCP = true;
     # L470 Config
     interfaces.enp2s0f0.useDHCP = false;
     interfaces.wlp3s0.useDHCP = false;
@@ -18,12 +18,8 @@
     wireless.enable = false;
     networkmanager.enable = true;
     wireless.networks = {
-      "Nokia 8110 4G" = {
-        psk = "lol";
-      };
-      "TP-Link_EFF4" = {
-        psk = "lol";
-      };
+      "wallPen" = {
+        psk = "***********";
     };
     extraHosts = ''
     '';
