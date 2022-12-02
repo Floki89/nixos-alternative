@@ -105,64 +105,26 @@
   [
     direnv nix-direnv
     wget
-    vim emacs
-    ispell
     git
-    mpv cmus spotify
-    alacritty
-    mkpasswd
-    rdiff-backup
-    qutebrowser chromium firefox
-    pass
-    dmenu
-    arandr xclip
-    tdesktop
     thunderbird
-    trash-cli
-    acpi
-    usbutils # for lsusb
-    gimp inkscape
-    imagemagick graphviz
-    ghc stack hlint
     latest.rustChannels.stable.rust
     rust-analyzer
-    cloc
-    mpd mpc_cli
     docker-compose
     python3withPackages
-    nodejs
-    clang
     htop
     pkg-config protobuf protobufc
     feh
-    texlive.combined.scheme-full biber
-    killall
-    # calibre
-    unzip
-    mupdf
-    gnumake
-    ncurses portmidi
     # stm32flash
     # stm32cubemx
     # openocd
     # stlink
-    wmname
-    # arduino
+    arduino
     youtube-dl
-    # zoom-us
-    element-desktop
     tarsnap
     audacity
     gnuplot
     stockfish
-    libnotify
-    dunst
-    ccls
-    android-udev-rules
-  #  steam-run-native
     gnugo gogui
-    asymptote
-    coq
   ];
 
   fonts.fonts = with pkgs; [
@@ -173,10 +135,10 @@
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
+  #programs.gnupg.agent = {
+  #  enable = true;
   #   enableSSHSupport = true;
-  };
+  #};
 
   # Backlight control
   programs.light.enable = true;
@@ -190,14 +152,6 @@
   programs.fish.enable = true;
 
   virtualisation.docker.enable = true;
-
-  systemd.user.services."dunst" = {
-    enable = true;
-    description = "";
-    wantedBy = [ "default.target" ];
-    serviceConfig.Restart = "always";
-    serviceConfig.RestartSec = 2;
-    serviceConfig.ExecStart = "${pkgs.dunst}/bin/dunst";
   };
 
   # This value determines the NixOS release from which the default
