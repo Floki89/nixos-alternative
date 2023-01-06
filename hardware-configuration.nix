@@ -7,7 +7,6 @@
 
   # amdgpu.backlight=0 makes the backlight work
   # acpi_backlight=none allows the backlight save/load systemd service to work.
-  boot.kernelParams = ["amdgpu.backlight=0" "acpi_backlight=none"];
 
   # Wifi support
   hardware.firmware = [ pkgs.rtw89-firmware ];
