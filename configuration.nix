@@ -101,7 +101,7 @@
 #      pandas numpy matplotlib scikitlearn notebook chess opencv4 z3
 #    ]);
 #  in
-  [
+#  [
     direnv nix-direnv
     wget
     git
