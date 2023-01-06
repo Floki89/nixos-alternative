@@ -108,7 +108,7 @@
     latest.rustChannels.stable.rust
     rust-analyzer
     docker-compose
-    python3withPackages
+  #  python3withPackages
     htop
     pkg-config protobuf protobufc
     feh
