@@ -21,7 +21,7 @@
   time.timeZone = "Europe/Berlin";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "de_DE.UTF-8";
   console = {
     font = "Lat2-Terminus16";
     keyMap = "de";
@@ -31,7 +31,7 @@
   boot.initrd.luks.devices = {
     root = {
       name = "root";
-      device = "/dev/disk/by-uuid/b3d89ad3-7a89-420c-bce8-da46ee72e0b0";
+      device = "/dev/disk/by-uuid/2d961d77-8132-4dcf-a4f3-cc3bee428f73";
       preLVM = true;
       allowDiscards = true;
     };
@@ -62,7 +62,7 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.mutableUsers = false;
-  users.users.leon = {
+  users.users.tobi = {
     isNormalUser = true;
     shell = pkgs.fish;
     home = "/home/Tobi";
@@ -88,20 +88,20 @@
 
   environment.systemPackages = with pkgs;
   let
-    chess = pkgs.python3.pkgs.buildPythonPackage rec {
-      pname = "chess";
-      version = "1.4.0";
-      src = python38.pkgs.fetchPypi {
-        inherit pname version;
-        sha256 = "082i54r1fzrsap99pbrrvxmwv9jvzdw24cbc3ii8qsx24ngrf32r";
-      };
-
-      doCheck = false;
-    };
-    python3withPackages = pkgs.python3.withPackages(ps: with ps; [
-      pandas numpy matplotlib scikitlearn notebook chess opencv4 z3
-    ]);
-  in
+#    chess = pkgs.python3.pkgs.buildPythonPackage rec {
+#      pname = "chess";
+#      version = "1.4.0";
+#      src = python38.pkgs.fetchPypi {
+#        inherit pname version;
+#        sha256 = "082i54r1fzrsap99pbrrvxmwv9jvzdw24cbc3ii8qsx24ngrf32r";
+#      };
+#
+#      doCheck = false;
+#    };
+#    python3withPackages = pkgs.python3.withPackages(ps: with ps; [
+#      pandas numpy matplotlib scikitlearn notebook chess opencv4 z3
+#    ]);
+#  in
   [
     direnv nix-direnv
     wget
@@ -127,10 +127,10 @@
     gnugo gogui
   ];
 
-  fonts.fonts = with pkgs; [
-    fira-code
-    fira-code-symbols
-  ];
+#  fonts.fonts = with pkgs; [
+#   fira-code
+#    fira-code-symbols
+#  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
