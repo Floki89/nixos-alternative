@@ -85,7 +85,7 @@
     (import (builtins.fetchTarball https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz))
   ];
 
-  environment.systemPackages = 
+  environment.systemPackages = with pkgs;
 #    chess = pkgs.python3.pkgs.buildPythonPackage rec {
 #      pname = "chess";
 #      version = "1.4.0";
