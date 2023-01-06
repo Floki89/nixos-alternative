@@ -85,8 +85,7 @@
     (import (builtins.fetchTarball https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz))
   ];
 
-  environment.systemPackages = with pkgs;
-  let
+  environment.systemPackages = 
 #    chess = pkgs.python3.pkgs.buildPythonPackage rec {
 #      pname = "chess";
 #      version = "1.4.0";
@@ -101,7 +100,7 @@
 #      pandas numpy matplotlib scikitlearn notebook chess opencv4 z3
 #    ]);
 #  in
-#  [
+  [
     direnv nix-direnv
     wget
     git
