@@ -2,9 +2,6 @@
 { lib, pkgs, ... }:
 
 {
-  imports = [
-    ../../../../../common/pc/laptop/acpi_call.nix
-  ];
 
   # For suspending to RAM, set Config -> Power -> Sleep State to "Linux" in EFI.
 
