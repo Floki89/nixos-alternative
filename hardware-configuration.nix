@@ -29,8 +29,6 @@
 
   boot.blacklistedKernelModules = [ "raydium_i2c_ts" ];
 
-  };
-
   networking.networkmanager.enableFccUnlock = true;
   # AT+CGDCONT=1,"IPV4V6","internet.v6.telekom"
   systemd.services.ModemManager.enable = true;
