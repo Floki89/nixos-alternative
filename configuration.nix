@@ -3,6 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
+{
   fileSystems = {
     # Mounts whatever device has the NIXOS_ROOT label on it as /
     # (but it's only really there to make systemd happy, so it wont try to remount stuff).
