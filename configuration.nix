@@ -19,9 +19,9 @@
 
   boot.loader.systemd-boot.enable = true;
 
-  # Select internationalisation properties
+  console.KeyMap = "de";
+  
   i18n = {
-    console.KeyMap = "de";
     defaultLocale = "en_US.UTF-8";
   };
 
