@@ -18,8 +18,6 @@
   # For 32 bit applications
   hardware.opengl.driSupport32Bit = true;
 }
-{ lib, config, pkgs, ... }: {
-  # For suspending to RAM, set Config -> Power -> Sleep State to "Linux" in EFI.
 
   # amdgpu.backlight=0 makes the backlight work
   # acpi_backlight=none allows the backlight save/load systemd service to work.
