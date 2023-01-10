@@ -36,11 +36,6 @@
     partOf = [ "graphical-session.target" ];
   };
 
-  systemd.services.disable_bt = {
-    path = [ pkgs.bluez ];
-    script = builtins.readFile ./disable_bt.sh;
-    wantedBy = [ "multi-user.target" ];
-  };
 
   networking.networkmanager.enableFccUnlock = true;
   # AT+CGDCONT=1,"IPV4V6","internet.v6.telekom"
