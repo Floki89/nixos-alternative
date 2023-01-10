@@ -36,7 +36,6 @@
     partOf = [ "graphical-session.target" ];
   };
 
-
   networking.networkmanager.enableFccUnlock = true;
   # AT+CGDCONT=1,"IPV4V6","internet.v6.telekom"
   systemd.services.ModemManager.enable = true;
@@ -51,20 +50,6 @@
     wantedBy = [ "multi-user.target" ];
   };
 
-  environment.systemPackages = [ pkgs.lenovo_wwan_dpr ];
-  # environment.systemPackages = [ pkgs.jool-cli ];
-  # systemd.services.jool = {
-  #   serviceConfig = {
-  #     ExecStartPre = "${pkgs.kmod}/bin/modprobe jool";
-  #     ExecStart =
-  #       "${pkgs.jool-cli}/bin/jool instance add default --netfilter --pool6 64:ff9b::/96";
-  #     ExecStop = "${pkgs.jool-cli}/bin/jool instance remove default";
-  #     Type = "oneshot";
-  #     RemainAfterExit = true;
-  #   };
-  #   wantedBy = [ "multi-user.target" ];
-  #   after = [ "network.target" ];
-  # };
 
   powerManagement.enable = true;
   powerManagement.cpuFreqGovernor = "conservative";
