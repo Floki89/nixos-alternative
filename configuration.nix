@@ -2,12 +2,16 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{config, pkgs, ...}:
 {
+  # We need no bootloader, because the Chromebook can't use that anyway.
+  boot.loader.grub.enable = false;
+
   fileSystems = {
     # Mounts whatever device has the NIXOS_ROOT label on it as /
     # (but it's only really there to make systemd happy, so it wont try to remount stuff).
     "/".label = "NIXOS_ROOT";
+  };
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
