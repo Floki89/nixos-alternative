@@ -1,12 +1,8 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
   imports =
-    [ 
+    [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -20,20 +16,10 @@
   time.timeZone = "Europe/Berlin";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "de_DE.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
     keyMap = "de";
-  };
-
-  # Configures LUKS encryption
-  boot.initrd.luks.devices = {
-    root = {
-      name = "root";
-      device = "/dev/disk/by-uuid/2d961d77-8132-4dcf-a4f3-cc3bee428f73";
-      preLVM = true;
-      allowDiscards = true;
-    };
   };
 
   # Supposedly better for the SSD.
@@ -48,9 +34,6 @@
   services.xserver.xkbVariant = "neo";
   services.xserver.xkbOptions = "ctrl:swap_lalt_lctl_lwin";
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
   # Enable sound.
   sound.enable = true;
   security.rtkit.enable = true;
@@ -64,7 +47,7 @@
   users.users.tobi = {
     isNormalUser = true;
     shell = pkgs.fish;
-    home = "/home/Tobi";
+    home = "/home/tobi";
     hashedPassword = "tobi";
     extraGroups = [ "wheel" "docker" "audio" "video" ];
   };
@@ -84,59 +67,69 @@
   nixpkgs.overlays = [
     (import (builtins.fetchTarball https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz))
   ];
-
-  environment.systemPackages = with pkgs;
-#    chess = pkgs.python3.pkgs.buildPythonPackage rec {
-#      pname = "chess";
-#      version = "1.4.0";
-#      src = python38.pkgs.fetchPypi {
-#        inherit pname version;
-#        sha256 = "082i54r1fzrsap99pbrrvxmwv9jvzdw24cbc3ii8qsx24ngrf32r";
-#      };
-#
-#      doCheck = false;
-#    };
-#    python3withPackages = pkgs.python3.withPackages(ps: with ps; [
-#      pandas numpy matplotlib scikitlearn notebook chess opencv4 z3
-#    ]);
-#  in
+    python3withPackages = pkgs.python3.withPackages(ps: with ps; [
+      pandas numpy matplotlib scikitlearn notebook chess opencv4 z3
+    ]);
+  in
   [
     direnv nix-direnv
     wget
+    vim emacs
+    ispell
     git
+    mpv cmus spotify
+    alacritty
+    mkpasswd
+    rdiff-backup
+    pass
+    dmenu
+    arandr xclip
+    tdesktop
     thunderbird
+    trash-cli
+    acpi
+    usbutils # for lsusb
+    gimp inkscape
+    imagemagick graphviz
+    ghc stack hlint
     latest.rustChannels.stable.rust
     rust-analyzer
+    mpd mpc_cli
     docker-compose
-  #  python3withPackages
+    python3withPackages
+    nodejs
+    clang
     htop
-    pkg-config protobuf protobufc
     feh
-    # stm32flash
-    # stm32cubemx
-    # openocd
-    # stlink
-    arduino
+    unzip
+    mupdf
+    gnumake
+    ncurses portmidi
+    wmname
+    # arduino
     youtube-dl
+    element-desktop
     tarsnap
     audacity
     gnuplot
     stockfish
+    libnotify
     gnugo gogui
+    asymptote
+    coq
   ];
 
-#  fonts.fonts = with pkgs; [
-#   fira-code
-#   fira-code-symbols
-#  ];
+  fonts.fonts = with pkgs; [
+    fira-code
+    fira-code-symbols
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  #programs.gnupg.agent = {
-  #  enable = true;
-  #   enableSSHSupport = true;
-  #};
+  programs.gnupg.agent = {
+    enable = true;
+  };
 
   # Backlight control
   programs.light.enable = true;
@@ -151,7 +144,7 @@
 
   virtualisation.docker.enable = true;
 
-  networking.useDHCP = false;
+  };
 
-  networking.networkmanager.enable = true;
+  system.stateVersion = "20.09"; # Did you read the comment?
 }
