@@ -21,7 +21,7 @@
 
   # Select internationalisation properties
   i18n = {
-    consoleKeyMap = "de";
+    console.KeyMap = "de";
     defaultLocale = "en_US.UTF-8";
   };
 
@@ -63,4 +63,6 @@
     home = "/home/tobi";
     uid = 1000;
   };
+}
+  system.stateVersion = "20.11"; # Did you read the comment?
 }
