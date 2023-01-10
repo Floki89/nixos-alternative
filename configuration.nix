@@ -12,7 +12,7 @@
     # (but it's only really there to make systemd happy, so it wont try to remount stuff).
     "/".label = "NIXOS_ROOT";
   };
-{
+
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
