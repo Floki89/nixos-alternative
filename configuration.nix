@@ -63,6 +63,5 @@
     home = "/home/tobi";
     uid = 1000;
   };
-}
-  system.stateVersion = "20.11"; # Did you read the comment?
+  system.stateVersion = "20.11";
 }
