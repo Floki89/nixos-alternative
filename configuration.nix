@@ -19,10 +19,11 @@
 
   boot.loader.systemd-boot.enable = true;
 
-  console.KeyMap = "de";
+
   
   i18n = {
     defaultLocale = "en_US.UTF-8";
+    console.KeyMap = "de";
   };
 
   # Set your time zone
