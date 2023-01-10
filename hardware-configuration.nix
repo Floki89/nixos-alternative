@@ -17,7 +17,6 @@
   hardware.opengl.driSupport = true;
   # For 32 bit applications
   hardware.opengl.driSupport32Bit = true;
-}
 
   # amdgpu.backlight=0 makes the backlight work
   # acpi_backlight=none allows the backlight save/load systemd service to work.

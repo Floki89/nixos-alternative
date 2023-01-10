@@ -5,62 +5,54 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-    
-boot.loader.systemd-boot.enable = true;
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
-boot.initrd.luks.devices = [
-  {
-    name = "root";
-    devices = "/dev/nvme0n1p2";
-    preLVM = true;
-  }
-];
+  boot.loader.systemd-boot.enable = true;
 
-# Select internationalisation properties
-i18n = (
-  consoleKeyMap = "de";
-  defaultLocale = "en_US.UTF-8"
-);
+  # Select internationalisation properties
+  i18n = {
+    consoleKeyMap = "de";
+    defaultLocale = "en_US.UTF-8";
+  };
 
-# Set your time zone
-time.timeZone = "Europe/Berlin";
+  # Set your time zone
+  time.timeZone = "Europe/Berlin";
 
-networking.networkmanager.enable = true;
+  networking.networkmanager.enable = true;
 
-# List packages installed in system profile. To search, run:
-# $ nix search wget
-environment.systemPackages = with pkgs: [
-  networkmanagerapplet
-  vim
-  wget
-  docker-compose
-  htop
-  feh
-];
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    networkmanagerapplet
+    vim
+    wget
+    docker-compose
+    htop
+    feh
+  ];
 
-# Backlight control
-programs.light.enable = true;
-  
-# Enable the X11 windowing system.
-services.xserver.enable = true;
-services.xserver.layout = "de";
+  # Backlight control
+  programs.light.enable = true;
 
-services.xserver.windowManager.i3.enable = true;
-services.xserver.autorun = true;
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+  services.xserver.layout = "de";
 
-services.xserver.libinput.enable = true;
+  services.xserver.windowManager.i3.enable = true;
+  services.xserver.autorun = true;
 
-# Define a user account. Don't forget to set a password with with passwd
-user.extraUsers.tobi = {
-  createHome = true;
-  extraGroups = ["wheel" "video" "audio" "disk" "networkmanager"];
-  group = "users";
-  isNormalUser = true;
-  shell = pkgs.fish;
-  home = "/home/tobi";
-  uid = 1000;
-};
+  services.xserver.libinput.enable = true;
+
+  # Define a user account. Don't forget to set a password with with passwd
+  users.extraUsers.tobi = {
+    createHome = true;
+    extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" ];
+    group = "users";
+    isNormalUser = true;
+    shell = pkgs.fish;
+    home = "/home/tobi";
+    uid = 1000;
+  };
+}
