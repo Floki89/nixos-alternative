@@ -20,10 +20,9 @@
   boot.loader.systemd-boot.enable = true;
 
 
-  
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-    consoleKeyMap = "de";
+  console = {
+    font = "en_US.UTF-8";
+    keyMap = "de";
   };
 
   # Set your time zone
