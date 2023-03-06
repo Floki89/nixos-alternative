@@ -1,68 +1,54 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+{ lib, config, pkgs, ... }: {
+  # AMD GPU stuff
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  services.xserver = {
+    videoDrivers = [ "amdgpu" ];
+    deviceSection = ''
+      Option         "TearFree" "true"
+    '';
+ };
 
-{config, pkgs, ...}:
-{
-  # We need no bootloader, because the Chromebook can't use that anyway.
-  boot.loader.grub.enable = false;
+  hardware.opengl.extraPackages = with pkgs; [
+    rocm-opencl-icd
+    rocm-opencl-runtime
+    amdvlk
+    driversi686Linux.amdvlk
+  ];
+  hardware.opengl.driSupport = true;
+  # For 32 bit applications
+  hardware.opengl.driSupport32Bit = true;
 
-  fileSystems = {
-    # Mounts whatever device has the NIXOS_ROOT label on it as /
-    # (but it's only really there to make systemd happy, so it wont try to remount stuff).
-    "/".label = "NIXOS_ROOT";
-  };
-
-  imports = [ # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+  # amdgpu.backlight=0 makes the backlight work
+  # acpi_backlight=none allows the backlight save/load systemd service to work.
+  boot.kernelParams = [
+    "amdgpu.backlight=0"
+    "acpi_backlight=none"
+    # blacklist acpi_cpufreq to use amd p states
+    "initcall_blacklist=acpi_cpufreq_init"
   ];
 
-  boot.loader.systemd-boot.enable = false;
+  boot.blacklistedKernelModules = [ "raydium_i2c_ts" ];
 
+  networking.networkmanager.enableFccUnlock = true;
+  # AT+CGDCONT=1,"IPV4V6","internet.v6.telekom"
+  systemd.services.ModemManager.enable = true;
+  # dbus-send --system --dest=org.freedesktop.ModemManager1 --print-reply /org/freedesktop/ModemManager1 org.freedesktop.DBus.Introspectable.Introspect
 
-  console = {
-    font = "en_US.UTF-8";
-    keyMap = "de";
+  systemd.services.startModemManager = {
+    enable = true;
+    path = [ pkgs.dbus ];
+    script = ''
+      dbus-send --system --dest=org.freedesktop.ModemManager1 --print-reply /org/freedesktop/ModemManager1 org.freedesktop.DBus.Introspectable.Introspect
+    '';
+    wantedBy = [ "multi-user.target" ];
   };
 
-  # Set your time zone
-  time.timeZone = "Europe/Berlin";
 
-  networking.networkmanager.enable = true;
+  powerManagement.enable = true;
+  powerManagement.cpuFreqGovernor = "conservative";
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    networkmanagerapplet
-    vim
-    wget
-    docker-compose
-    htop
-    feh
-    google-chrome
-  ];
-
-  # Backlight control
-  programs.light.enable = true;
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "de";
-
-services.xserver.displayManager.gdm.enable = true;
-services.xserver.desktopManager.gnome.enable = true;
- services.xserver.autorun = true;
-
-
-  # Define a user account. Don't forget to set a password with with passwd
-  users.extraUsers.tobi = {
-    createHome = true;
-    extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" ];
-    group = "users";
-    isNormalUser = true;
-    shell = pkgs.fish;
-    home = "/home/tobi";
-    uid = 1000;
+  boot = {
+    kernelModules = [ "acpi_call" "amd-pstate" ];
+    extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
   };
-  system.stateVersion = "20.11";
 }
