@@ -14,10 +14,10 @@
   };
 
   imports = [ # Include the results of the hardware scan.
-#    ./hardware-configuration.nix
+    ./hardware-configuration.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = false;
 
 
   console = {
@@ -39,6 +39,7 @@
     docker-compose
     htop
     feh
+    google-chrome
   ];
 
   # Backlight control
@@ -48,10 +49,10 @@
   services.xserver.enable = true;
   services.xserver.layout = "de";
 
-  services.xserver.windowManager.i3.enable = true;
-  services.xserver.autorun = true;
+services.xserver.displayManager.gdm.enable = true;
+services.xserver.desktopManager.gnome.enable = true;
+ services.xserver.autorun = true;
 
-  services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with with passwd
   users.extraUsers.tobi = {
