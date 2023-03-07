@@ -51,20 +51,20 @@
   ];
 
 environment.gnome.excludePackages = (with pkgs; [
-  gnome-photos
-  gnome-tour
+    gnome-photos
+    gnome-tour
 ]) ++ (with pkgs.gnome; [
-  gnome-music
-  gedit # text editor
-  epiphany # web browser
-  geary # email reader
-  evince # document viewer
-  gnome-characters
-  totem # video player
-  tali # poker game
-  iagno # go game
-  hitori # sudoku game
-  atomix # puzzle game
+    gnome-music
+    gedit
+    epiphany
+    geary
+    evince
+    gnome-characters
+    totem
+    tali
+    iagno
+    hitori
+    atomix
 ]);
 
   # Backlight control
