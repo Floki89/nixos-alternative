@@ -2,37 +2,35 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{config, pkgs, ...}:
-{
-# We need no bootloader, because the Chromebook can't use that anyway.
-boot.loader.grub.enable = false;
+{ config, pkgs, ... }: {
+  boot.loader.grub.enable = false;
 
-fileSystems = {
+  fileSystems = {
     # Mounts whatever device has the NIXOS_ROOT label on it as /
     # (but it's only really there to make systemd happy, so it wont try to remount stuff).
     "/".label = "NIXOS_ROOT";
-};
+  };
 
-imports = [ # Include the results of the hardware scan.
+  imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-];
+  ];
 
-boot.loader.systemd-boot.enable = false;
+  boot.loader.systemd-boot.enable = false;
   console = {
     font = "en_US.UTF-8";
     keyMap = "de";
-};
+  };
 
-# Set your time zone
-time.timeZone = "Europe/Berlin";
+  # Set your time zone
+  time.timeZone = "Europe/Berlin";
 
-networking.networkmanager.enable = true;
-nixpkgs.config.allowUnfree = true;
-boot.supportedFilesystems = [ "ntfs" ];
+  networking.networkmanager.enable = true;
+  nixpkgs.config.allowUnfree = true;
+  boot.supportedFilesystems = [ "ntfs" ];
 
-# List packages installed in system profile. To search, run:
-# $ nix search wget
-environment.systemPackages = with pkgs; [
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
     networkmanagerapplet
     vim
     wget
@@ -50,23 +48,40 @@ environment.systemPackages = with pkgs; [
     docker
     python3
     wireshark-qt
-];
+  ];
 
-# Backlight control
-programs.light.enable = true;
+environment.gnome.excludePackages = (with pkgs; [
+  gnome-photos
+  gnome-tour
+]) ++ (with pkgs.gnome; [
+  gnome-music
+  gedit # text editor
+  epiphany # web browser
+  geary # email reader
+  evince # document viewer
+  gnome-characters
+  totem # video player
+  tali # poker game
+  iagno # go game
+  hitori # sudoku game
+  atomix # puzzle game
+]);
 
-# Enable the X11 windowing system.
-services.xserver.enable = true;
-services.xserver.layout = "de";
+  # Backlight control
+  programs.light.enable = true;
 
-services.xserver.displayManager.gdm.enable = true;
-services.xserver.desktopManager.gnome.enable = true;
-services.xserver.autorun = true;
-services.openssh.enable = true;
-services.openssh.permitRootLogin = "yes";
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+  services.xserver.layout = "de";
 
-# Define a user account. Don't forget to set a password with with passwd
-users.extraUsers.tobi = {
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.autorun = true;
+  services.openssh.enable = true;
+  services.openssh.permitRootLogin = "yes";
+
+  # Define a user account. Don't forget to set a password with with passwd
+  users.extraUsers.tobi = {
     createHome = true;
     extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" ];
     group = "users";
@@ -74,6 +89,7 @@ users.extraUsers.tobi = {
     shell = pkgs.fish;
     home = "/home/tobi";
     uid = 1000;
-};
+  };
+
   system.stateVersion = "20.11";
 }
