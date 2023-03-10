@@ -48,6 +48,7 @@
     docker
     python3
     wireshark-qt
+    cargo
   ];
 
 environment.gnome.excludePackages = (with pkgs; [
