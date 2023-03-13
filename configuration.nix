@@ -1,17 +1,20 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }: {
   boot.loader.grub.enable = false;
 
-  fileSystems = {
-    # Mounts whatever device has the NIXOS_ROOT label on it as /
-    # (but it's only really there to make systemd happy, so it wont try to remount stuff).
-    "/".label = "NIXOS_ROOT";
-  };
+  #fileSystems = {
+  # Mounts whatever device has the NIXOS_ROOT label on it as /
+  # (but it's only really there to make systemd happy, so it wont try to remount stuff).
+  # "/".label = "NIXOS_ROOT";
+  # };
 
-  imports = [ # Include the results of the hardware scan.
+  fileSystems."/" =
+    {
+      device = "/dev/disk/by-uuid/d6768c27-5a23-471f-965d-abbaf09d8494";
+      fsType = "ext4";
+    };
+
+  imports = [
+    # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
 
@@ -33,6 +36,7 @@
   environment.systemPackages = with pkgs; [
     networkmanagerapplet
     vim
+    nixpkgs-fmt
     wget
     docker-compose
     htop
@@ -45,16 +49,19 @@
     git
     bmap-tools
     rustup
+    clang
     docker
     python3
     wireshark-qt
     cargo
+    fprintd
+    discord
   ];
 
-environment.gnome.excludePackages = (with pkgs; [
+  environment.gnome.excludePackages = (with pkgs; [
     gnome-photos
     gnome-tour
-]) ++ (with pkgs.gnome; [
+  ]) ++ (with pkgs.gnome; [
     gnome-music
     gedit
     epiphany
@@ -66,18 +73,24 @@ environment.gnome.excludePackages = (with pkgs; [
     iagno
     hitori
     atomix
-]);
+  ]);
 
   # Backlight control
   programs.light.enable = true;
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "de";
-
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   services.xserver.autorun = true;
+  services.xserver.enable = true;
+  services.xserver.layout = "de";
+
+  services.fprintd.enable = true;
+  #services.fprintd.tod.enable = true;
+  #services.fprintd.tod.driver = pkgs.libfprint-2-tod1-vfs0090;
+  #services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
+  security.pam.services.login.fprintAuth = true;
+  security.pam.services.sudo.fprintAuth = true;
+
   services.openssh.enable = true;
   services.openssh.permitRootLogin = "yes";
 
