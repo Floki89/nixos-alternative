@@ -12,25 +12,22 @@
       device = "/dev/disk/by-uuid/d6768c27-5a23-471f-965d-abbaf09d8494";
       fsType = "ext4";
     };
+  boot.supportedFilesystems = [ "ntfs" ];
+  boot.loader.systemd-boot.enable = false;
 
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
 
-  boot.loader.systemd-boot.enable = false;
+  i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "en_US.UTF-8";
     keyMap = "de";
   };
-
-  # Set your time zone
   time.timeZone = "Europe/Berlin";
 
-  networking.networkmanager.enable = true;
   nixpkgs.config.allowUnfree = true;
-  boot.supportedFilesystems = [ "ntfs" ];
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -75,7 +72,7 @@
     atomix
   ]);
 
-  # Backlight control
+  networking.networkmanager.enable = true;
   programs.light.enable = true;
 
   services.xserver.displayManager.gdm.enable = true;
