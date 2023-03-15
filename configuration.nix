@@ -1,5 +1,7 @@
 { config, pkgs, ... }: {
-  boot.loader.grub.enable = false;
+
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
 
   #fileSystems = {
   # Mounts whatever device has the NIXOS_ROOT label on it as /
