@@ -16,11 +16,11 @@
   boot.loader.systemd-boot.enable = false;
 
   imports = [
-    # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
 
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "de_DE.UTF-8/UTF-8" ];
+  i18n.defaultLocale = "en_US.UTF-8/UTF-8";
   console = {
     font = "en_US.UTF-8";
     keyMap = "de";
@@ -28,8 +28,7 @@
   time.timeZone = "Europe/Berlin";
 
   nixpkgs.config.allowUnfree = true;
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+
   environment.systemPackages = with pkgs; [
     networkmanagerapplet
     vim
@@ -55,6 +54,7 @@
     discord
   ];
 
+  #exclude gnome default pks
   environment.gnome.excludePackages = (with pkgs; [
     gnome-photos
     gnome-tour
@@ -81,6 +81,7 @@
   services.xserver.enable = true;
   services.xserver.layout = "de";
 
+  #Fingerprint
   services.fprintd.enable = true;
   #services.fprintd.tod.enable = true;
   #services.fprintd.tod.driver = pkgs.libfprint-2-tod1-vfs0090;
@@ -88,10 +89,17 @@
   security.pam.services.login.fprintAuth = true;
   security.pam.services.sudo.fprintAuth = true;
 
+  #Printer
+  services.printing.enable = true;
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
+  # for a WiFi printer
+  services.avahi.openFirewall = true;
+
   services.openssh.enable = true;
   services.openssh.permitRootLogin = "yes";
 
-  # Define a user account. Don't forget to set a password with with passwd
+  # Define a user account.
   users.extraUsers.tobi = {
     createHome = true;
     extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" ];
