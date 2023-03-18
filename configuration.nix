@@ -1,28 +1,23 @@
 { config, pkgs, ... }: {
 
+  #Bootloader Uefi
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "nodev";
-
-  #fileSystems = {
-  # Mounts whatever device has the NIXOS_ROOT label on it as /
-  # (but it's only really there to make systemd happy, so it wont try to remount stuff).
-  # "/".label = "NIXOS_ROOT";
-  # };
+  boot.supportedFilesystems = [ "ntfs" ];
+  boot.loader.systemd-boot.enable = false;
 
   fileSystems."/" =
     {
       device = "/dev/disk/by-uuid/d6768c27-5a23-471f-965d-abbaf09d8494";
       fsType = "ext4";
     };
-  boot.supportedFilesystems = [ "ntfs" ];
-  boot.loader.systemd-boot.enable = false;
 
   imports = [
     ./hardware-configuration.nix
   ];
 
   i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "de_DE.UTF-8/UTF-8" ];
-  i18n.defaultLocale = "en_US.UTF-8/UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "en_US.UTF-8";
     keyMap = "de";
@@ -54,6 +49,7 @@
     cargo
     fprintd
     discord
+    steam
   ];
 
   #exclude gnome default pks
