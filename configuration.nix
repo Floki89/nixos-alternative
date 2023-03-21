@@ -26,6 +26,10 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-12.2.3"
+  ];
+
   environment.systemPackages = with pkgs; [
     networkmanagerapplet
     vim
@@ -50,6 +54,7 @@
     fprintd
     discord
     steam
+    etcher
   ];
 
   #exclude gnome default pks
