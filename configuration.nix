@@ -5,11 +5,10 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-   <nixos-hardware/lenovo/thinkpad/p14s/amd/gen2>
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    <nixos-hardware/lenovo/thinkpad/p14s/amd/gen2>
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -63,7 +62,6 @@
   services.printing.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
-  # for a WiFi printer
   services.avahi.openFirewall = true;
 
   # Enable sound with pipewire.
@@ -78,28 +76,22 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-   services.xserver.libinput.enable = true;
+  services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tobi = {
     isNormalUser = true;
     description = "tobi";
     extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" ];
-      shell = pkgs.fish;
-    packages = with pkgs; [
-      firefox
-    ];
+    shell = pkgs.fish;
+    packages = with pkgs; [ firefox ];
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-#boot.extraModulePackages = with config.boot.kernelPackages; [ rtw89 ];
- # boot.kernelPackages = pkgs.linuxPackages_5_15;
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-12.2.3"
-  ];
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  nixpkgs.config.permittedInsecurePackages = [ "electron-12.2.3" ];
+  #List packages installed in system profile. To search, run:
+  #$ nix search wget
   environment.systemPackages = with pkgs; [
     networkmanagerapplet
     vim
@@ -128,41 +120,28 @@
   ];
 
   #exclude gnome default pks
-  environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-  ]) ++ (with pkgs.gnome; [
-    gnome-music
-    gedit
-    epiphany
-    geary
-    evince
-    gnome-characters
-    totem
-    tali
-    iagno
-    hitori
-    atomix
-  ]);
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  environment.gnome.excludePackages = (with pkgs; [ gnome-photos gnome-tour ])
+    ++ (with pkgs.gnome; [
+      gnome-music
+      gedit
+      epiphany
+      geary
+      evince
+      gnome-characters
+      totem
+      tali
+      iagno
+      hitori
+      atomix
+    ]);
 
   #Fingerprint
   services.fprintd.enable = true;
-  #services.fprintd.tod.enable = true;
-  #services.fprintd.tod.driver = pkgs.libfprint-2-tod1-vfs0090;
-  #services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
   security.pam.services.login.fprintAuth = true;
   security.pam.services.sudo.fprintAuth = true;
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  #Enable the OpenSSH daemon.
+  #services.openssh.enable = true;
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
