@@ -1,6 +1,9 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
+#nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+#nix-channel --update
+#nix-shell '<home-manager>' -A install
 
 { config, pkgs, ... }:
 
@@ -8,6 +11,7 @@
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
     <nixos-hardware/lenovo/thinkpad/p14s/amd/gen2>
+    <home-manager/nixos>
   ];
 
   # Bootloader.
@@ -20,6 +24,8 @@
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  nix.settings.experimental-features = [ "flakes" "nix-command" ];
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -82,11 +88,13 @@
   users.users.tobi = {
     isNormalUser = true;
     description = "tobi";
-    extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" ];
+    extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" "docker" ];
     shell = pkgs.fish;
     packages = with pkgs; [ firefox ];
   };
 
+
+programs.steam.enable = true;
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [ "electron-12.2.3" ];
@@ -109,7 +117,6 @@
     bmap-tools
     rustup
     clang
-    docker
     python3
     wireshark-qt
     cargo
@@ -117,7 +124,16 @@
     discord
     steam
     etcher
+    home-manager
+    vlc
+    remmina
+    openvpn
+    libreoffice-still
+    minecraft
+    obsidian
   ];
+
+  virtualisation.docker.enable = true;
 
   #exclude gnome default pks
   environment.gnome.excludePackages = (with pkgs; [ gnome-photos gnome-tour ])
@@ -148,6 +164,6 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "22.11"; 
 
 }
