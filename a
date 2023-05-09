@@ -19,6 +19,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
+  networking.firewall.interfaces.eth0.allowedTCPPorts = [ 22 25 465 587 ];
+  networking.firewall.interfaces.eth0.allowedUDPPorts = [ 5553 ];
+  networking.firewall.interfaces.wg0.allowedTCPPorts = [ 993 ];
+
   networking.hostName = "tobi"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # Configure network proxy if necessary
@@ -131,6 +135,7 @@ programs.steam.enable = true;
     libreoffice-still
     minecraft
     obsidian
+    wireguard-tools
   ];
 
   virtualisation.docker.enable = true;
