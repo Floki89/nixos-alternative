@@ -136,6 +136,8 @@ programs.steam.enable = true;
     minecraft
     obsidian
     wireguard-tools
+    mmctl
+    teamviewer
   ];
 
   virtualisation.docker.enable = true;
@@ -160,7 +162,8 @@ programs.steam.enable = true;
   services.fprintd.enable = true;
   security.pam.services.login.fprintAuth = true;
   security.pam.services.sudo.fprintAuth = true;
-
+  services.teamviewer.enable = true;
+  
   #Enable the OpenSSH daemon.
   #services.openssh.enable = true;
   # Open ports in the firewall.
