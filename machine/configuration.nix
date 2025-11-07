@@ -5,11 +5,12 @@
   imports = [
     ./hardware-configuration.nix
   ];
+      nixpkgs.config.allowUnfree = true;
 
-  system.stateVersion = "25.05"; 
+  system.stateVersion = "25.05";
 
-  networking.hostName = "tobi"; 
-  networking.networkmanager.enable = true; 
+  networking.hostName = "tobi";
+  networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Berlin";
   i18n.defaultLocale = "de_DE.UTF-8";
@@ -28,17 +29,27 @@
   ###################################
   #   Grafik & Sound
   ###################################
-  services.xserver.enable = true;
-  services.xserver.videoDrivers = [ "amdgpu" ];
+services.xserver = {
+  enable = true;
+  videoDrivers = [ "amdgpu" ];
 
-  services.xserver.desktopManager.plasma6.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
+  # Eingabegeräte (Touchpad, TrackPoint, Maus)
+  libinput = {
+    enable = true;
+    touchpad.disableWhileTyping = true;
+    touchpad.tapping = true;
+    touchpad.naturalScrolling = true;
+  };
 
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport = true;
-  hardware.opengl.driSupport32Bit = true; # für Steam/Wine etc.
+  desktopManager.plasma6.enable = true;
+  displayManager.sddm.enable = true;
+};
 
-  sound.enable = true;
+  #hardware.opengl.enable = true;
+  #hardware.opengl.driSupport = true;
+  #hardware.opengl.driSupport32Bit = true; # für Steam/Wine etc.
+
+  #sound.enable = true;
   hardware.pulseaudio.enable = false; # PulseAudio wird von PipeWire ersetzt
   services.pipewire = {
     enable = true;
@@ -52,38 +63,39 @@
   ###################################
   powerManagement.enable = true;
   services.tlp.enable = true;
-  services.auto-cpufreq.enable = true; 
+  services.auto-cpufreq.enable = true;
   services.power-profiles-daemon.enable = false; # Konflikt mit TLP vermeiden
 
   ###################################
   #   Bluetooth, Firmware, ThinkPad Features
   ###################################
   hardware.bluetooth.enable = true;
-  services.blueman.enable = true; 
+  services.blueman.enable = true;
 
-  services.fwupd.enable = true; 
+  services.fwupd.enable = true;
 
-  services.thinkfan.enable = false; 
-  services.thinkpad.enable = true;  
+ # services.thinkfan.enable = false;
+ # services.thinkpad.enable = true;
 
   ###################################
   #   Drucker & Scanner (optional)
   ###################################
   services.printing.enable = true;
-  hardware.sane.enable = true; 
+  hardware.sane.enable = true;
 
   ###################################
   #   Benutzer & Programme
   ###################################
+  programs.fish.enable = true;
   users.users.tobi = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "audio" "video" ];
     shell = pkgs.fish;
     packages = with pkgs; [
+      pkgs.kdePackages.kate
       google-chrome
       vlc
       libreoffice
-      kate
       git
       htop
       neofetch
