@@ -1,14 +1,11 @@
 { config, pkgs, ... }:
-
 {
   ##############################
   imports = [
     ./hardware-configuration.nix
   ];
       nixpkgs.config.allowUnfree = true;
-
   system.stateVersion = "25.05";
-
   networking.hostName = "tobi";
   networking.networkmanager.enable = true;
 
@@ -29,9 +26,9 @@
   ###################################
   #   Grafik & Sound
   ###################################
-services.xserver = {
-  enable = true;
-  videoDrivers = [ "amdgpu" ];
+  services.xserver = {
+    enable = true;
+    videoDrivers = [ "amdgpu" ];
 
   # Eingabegeräte (Touchpad, TrackPoint, Maus)
   libinput = {
@@ -40,11 +37,9 @@ services.xserver = {
     touchpad.tapping = true;
     touchpad.naturalScrolling = true;
   };
-
   desktopManager.plasma6.enable = true;
   displayManager.sddm.enable = true;
 };
-
   #hardware.opengl.enable = true;
   #hardware.opengl.driSupport = true;
   #hardware.opengl.driSupport32Bit = true; # für Steam/Wine etc.
@@ -71,18 +66,12 @@ services.xserver = {
   ###################################
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
-
   services.fwupd.enable = true;
-
- # services.thinkfan.enable = false;
- # services.thinkpad.enable = true;
-
   ###################################
-  #   Drucker & Scanner (optional)
+  #   Drucker & Scanner
   ###################################
   services.printing.enable = true;
   hardware.sane.enable = true;
-
   ###################################
   #   Benutzer & Programme
   ###################################
